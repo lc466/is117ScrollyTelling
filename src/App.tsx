@@ -13,18 +13,20 @@ const SECTIONS: Section[] = [
 
 export default function App() {
   const [active, setActive] = useState(0)
-  const [images, setImages] = useState<string[]>(['/images/placeholder.svg'])
+  const baseUrl = import.meta.env.BASE_URL ?? '/'
+  const assetUrl = (p: string) => `${baseUrl}${p.replace(/^\//, '')}`
+  const [images, setImages] = useState<string[]>([assetUrl('images/placeholder.svg')])
   const sectionRefs = useRef<Array<HTMLElement | null>>([])
 
   useEffect(() => {
     // Try to load `/images/gallery.json` (optional). If not present, fallback to placeholder.
-    fetch('/images/gallery.json')
+    fetch(assetUrl('images/gallery.json'))
       .then((r) => {
         if (!r.ok) throw new Error('no gallery')
         return r.json()
       })
       .then((data: string[]) => {
-        if (Array.isArray(data) && data.length > 0) setImages(data.map((p) => `/images/${p}`))
+        if (Array.isArray(data) && data.length > 0) setImages(data.map((p) => assetUrl(`images/${p}`)))
       })
       .catch(() => {
         // leave default placeholder
