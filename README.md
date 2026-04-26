@@ -57,4 +57,3 @@ The `PROCESS.md` file documents the design and development process, including no
 
 ---
 
-If you want, I can now populate the copy for each section or help add your images to `public/images/` and tune the visuals.
